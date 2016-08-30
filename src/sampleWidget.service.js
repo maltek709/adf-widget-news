@@ -25,14 +25,34 @@
 'use strict';
 
 angular.module('adfWidgetSample')
- .controller('dashboardController', function($scope, localStorageService, sampleWidgetService){
-   var vm = this;
-   var model = sampleWidgetService.getWidgetSample();
+  .factory('sampleWidgetService', sampleWidgetService);
 
-   $scope.dashboard = {
-     model: model
-   };
-   $scope.$on('adfDashboardChanged', function (event, name, model) {
-     localStorageService.set(name, model);
-   });
- });
+/* @ngInject */
+function sampleWidgetService(localStorageService){
+  var service = {
+    getWidgetSample : getWidgetSample
+  }
+  return service;
+
+  function getWidgetSample(){
+    var model = localStorageService.get('widgetSampleDashboard');
+    if (!model){
+      model = {
+       rows: [{
+         columns: [{
+           styleClass: 'col-md-4',
+           widgets: []
+         }, {
+           styleClass: 'col-md-8',
+           widgets: [{
+             type: 'news',
+             title: 'News',
+             config: {}
+           }]
+         }]
+       }]
+     };
+    }
+    return model;
+  }
+}
