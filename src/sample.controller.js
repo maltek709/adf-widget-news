@@ -24,35 +24,30 @@
 
 'use strict';
 
-angular.module('adf.widget.news')
-  .service('NewsService', NewsService);
-
-function NewsService($q, $http, newsServiceUrl){
-
-  function createUrl(config){
-    if (!config.num){
-      config.num = 5;
-    }
-    return newsServiceUrl + encodeURIComponent(config.url) + '&num=' + config.num;
-  }
-
-  function loadFeed(config){
-    var deferred = $q.defer();
-    $http.jsonp(createUrl(config))
-      .success(function(data){
-        if (data && data.responseData && data.responseData.feed){
-          deferred.resolve(data.responseData.feed);
-        } else {
-          deferred.reject('feed does not contain responseData element');
-        }
-      })
-      .error(function(err){
-        deferred.reject(err);
-      });
-    return deferred.promise;
-  }
-
-  return {
-    get: loadFeed
-  };
-}
+angular.module('adfWidgetSample')
+ .controller('dashboardController', function($scope, localStorageService){
+   var model = localStorageService.get('widgetSampleDashboard');
+   if (!model){
+     model = {
+      rows: [{
+        columns: [{
+          styleClass: 'col-md-4',
+          widgets: []
+        }, {
+          styleClass: 'col-md-8',
+          widgets: [{
+            type: 'news',
+            title: 'News',
+            config: {}
+          }]
+        }]
+      }]
+    };
+   }
+   $scope.dashboard = {
+     model: model
+   };
+   $scope.$on('adfDashboardChanged', function (event, name, model) {
+     localStorageService.set(name, model);
+   });
+ });

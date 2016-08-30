@@ -24,34 +24,5 @@
 
 'use strict';
 
-
 angular.module('adf.widget.news', ['adf.provider'])
-  .value('newsServiceUrl', 'https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&callback=JSON_CALLBACK&q=')
-  .config(RegisterWidget);
-
-function RegisterWidget(dashboardProvider){
-  dashboardProvider
-    .widget('news', {
-      title: 'News',
-      description: 'Displays a RSS/Atom feed',
-      category: 'News',
-      templateUrl: '{widgetsPath}/news/src/view.html',
-      controller: 'NewsController',
-      controllerAs: 'vm',
-      config: {
-        num: 5,
-        showTitle: true,
-        showDescription: true
-      },
-      resolve: {
-        feed: function(NewsService, config){
-          if (config.url){
-            return NewsService.get(config);
-          }
-        }
-      },
-      edit: {
-        templateUrl: '{widgetsPath}/news/src/edit.html'
-      }
-    });
-}
+  .value('newsServiceUrl', 'https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&callback=JSON_CALLBACK&q=');

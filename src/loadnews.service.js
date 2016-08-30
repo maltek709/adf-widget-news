@@ -25,8 +25,36 @@
 'use strict';
 
 angular.module('adf.widget.news')
-  .controller('NewsController', NewsController);
+  .factory('NewsService', NewsService);
 
-function NewsController(feed, config){
-  this.feed = feed;
+function NewsService($q, $http, newsServiceUrl){
+
+  var service = {
+    loadFeed: loadFeed
+  };
+  return service;
+
+  function createUrl(config){
+    if (!config.num){
+      config.num = 5;
+    }
+    return newsServiceUrl + encodeURIComponent(config.url) + '&num=' + config.num;
+  }
+
+  function loadFeed(config){
+    var deferred = $q.defer();
+    $http.jsonp(createUrl(config))
+      .success(function(data){
+        if (data && data.responseData && data.responseData.feed){
+          deferred.resolve(data.responseData.feed);
+        } else {
+          deferred.reject('feed does not contain responseData element');
+        }
+      })
+      .error(function(err){
+        deferred.reject(err);
+      });
+    return deferred.promise;
+  }
+
 }
