@@ -25,7 +25,7 @@
 'use strict';
 
 angular.module('adfWidgetSample')
- .controller('dashboardController', function($scope, localStorageService, sampleWidgetService){
+ .controller('DashboardController', function($scope, localStorageService, sampleWidgetService){
    var vm = this;
    var model = sampleWidgetService.getWidgetSample();
 

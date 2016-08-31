@@ -25,9 +25,9 @@
 'use strict';
 
 angular.module('adf.widget.news')
-  .factory('NewsService', NewsService);
+  .factory('newsService', newsService);
 
-function NewsService($q, $http, newsServiceUrl){
+function newsService($q, $http, newsServiceUrl){
 
   var service = {
     loadFeed: loadFeed

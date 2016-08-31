@@ -52,8 +52,8 @@ function RegisterWidget(dashboardProvider){
 }
 
 /* @ngInject */
-function feed(NewsService, config){
+function feed(newsService, config){
   if (config.url){
-    return NewsService.loadFeed(config);
+    return newsService.loadFeed(config);
   }
 }
