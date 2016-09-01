@@ -27,7 +27,7 @@
 angular.module('adf.widget.news')
   .controller('NewsController', NewsController);
 
-function NewsController(feed, config){
+function NewsController(feed){
   var vm = this;
   vm.feed = feed;
 }
